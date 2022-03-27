@@ -62,6 +62,19 @@
         android:text="LEARN"
         app:backgroundTint="@color/design_default_color_primary_variant" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createeducatoraccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginbutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Create an Educator account"
+        app:backgroundTint="@color/design_default_color_primary_variant" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
