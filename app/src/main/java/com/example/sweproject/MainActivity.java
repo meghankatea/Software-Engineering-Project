@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,5 +50,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+        //Make "Create an Educator Account Button" go to an Educator Account Creation Screen
+        Button createAnEducatorAccount = (Button)findViewById(R.id.createEducatorAccount);
+
+        createAnEducatorAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, EducatorAccountCreation.class));
+            }
+        });
         }
     }

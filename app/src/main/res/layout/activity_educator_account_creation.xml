@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".MainActivity">
+    tools:context=".EducatorAccountCreation">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textLogin"
-        android:text="Student and Educator Log in"
+        android:id="@+id/textCreateAnEducatorAccount"
+        android:text="Create Your Educator Account"
         android:textColor="@color/white"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -21,8 +21,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/username"
-        android:layout_below="@id/textLogin"
+        android:id="@+id/setEducatorUsername"
+        android:layout_below="@id/textCreateAnEducatorAccount"
         android:background="#30ffffff"
         android:hint="Username"
         android:textColorHint="@color/white"
@@ -36,8 +36,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/password"
-        android:layout_below="@id/username"
+        android:id="@+id/setEducatorPassword"
+        android:layout_below="@id/setEducatorUsername"
         android:background="#30ffffff"
         android:hint="Password"
         android:textColorHint="@color/white"
@@ -46,60 +46,49 @@
         android:padding="20dp"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:drawablePadding="10dp"
-        android:inputType="textPassword"
         />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/loginbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="LEARN"
-        app:backgroundTint="@color/design_default_color_primary_variant" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/createEducatorAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/loginbutton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="Create an Educator account"
-        app:backgroundTint="@color/design_default_color_primary_variant" />
-
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/others"
-        android:layout_above="@id/icons"
-        android:text="View Florida Standards"
-        android:textColor="@color/white"
-        android:layout_centerHorizontal="true" />
-
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/icons"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:id="@+id/textTapGradeLevel"
+        android:text="Select Grade Level for Students"
+        android:layout_below="@id/setEducatorPassword"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:gravity="center" />
 
-    <ImageView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="15dp"
-        android:id="@+id/FLStandards"
-        android:src="@drawable/flstandards" />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gradeLevelDropDown"
+        android:layout_below="@id/textTapGradeLevel"
+        android:background="#30ffffff"
+        android:hint="Set Grade Level"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_margin="10dp"
+        android:padding="10dp" />
 
-    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/setEducatorLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gradeLevelDropDown"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="CREATE"
+        app:backgroundTint="@color/design_default_color_primary_variant" />
 
 </RelativeLayout>
