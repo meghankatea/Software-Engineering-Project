@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".EducatorHomepage">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/manageStudents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginEnd="270dp"
+        android:layout_marginBottom="20dp"
+        android:text="Manage Students"
+        app:backgroundTint="@color/design_default_color_primary_variant" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/viewScoreReports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="310dp"
+        android:layout_marginEnd="270dp"
+        android:layout_marginBottom="20dp"
+        android:text="View Score Reports"
+        app:backgroundTint="@color/design_default_color_primary_variant" />
+</RelativeLayout>

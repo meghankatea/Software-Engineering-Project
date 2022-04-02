@@ -60,5 +60,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, EducatorAccountCreation.class));
             }
         });
-        }
+
+        //Make "Learn" go to Student Homepage **Only if login successful (implement this functionality)**
+        Button learn = (Button)findViewById(R.id.loginbutton);
+
+        loginbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, StudentHomepage.class));
+            }
+        });
+
+        //Make "Manage" go to Educator Homepage **Only if login successful (implement this functionality)**
+        Button manage = (Button)findViewById(R.id.educatorLoginButton);
+
+        manage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, EducatorHomepage.class));
+            }
+        });
+
+    }
     }

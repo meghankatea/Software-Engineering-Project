@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_educator_account_creation.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_educator_homepage.xml" value="0.2109375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_student_homepage.xml" value="0.297554347826087" />
       </map>
     </option>
   </component>
