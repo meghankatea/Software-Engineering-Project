@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import androidx.annotation.Nullable;
 
@@ -52,16 +55,40 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(createStudentTableString);
         db.execSQL(createPerformanceTableString);
 
-        ContentValues cv = new ContentValues();
-        cv.put(QUESTION_COLUMN_QUESTION, var1);
-        cv.put(QUESTION_COLUMN_SUBJECT, var2);
-        cv.put(QUESTION_COLUMN_CORRECT_ANSWER, var3);
-        cv.put(QUESTION_COLUMN_WRONG_ANSWER_1, var4);
-        cv.put(QUESTION_COLUMN_WRONG_ANSWER_2, var5);
-        cv.put(QUESTION_COLUMN_WRONG_ANSWER_3, var6);
-        cv.put(QUESTION_COLUMN_STANDARD, var7);
-        cv.put(QUESTION_COLUMN_GRADE, var8);
-        long insert = db.insert(QUESTION_TABLE, null, cv);
+
+        String File_path = ""; //CHANGE ME!
+
+        String line = "";
+        String splitBy = ",";
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(File_path));
+            while ((line = br.readLine()) != null)   //returns a Boolean value
+            {
+                String[] question = line.split(splitBy);
+                question[0] = question[0].replace('&', ',');// use comma as separator
+                //System.out.println("[Subject" + question[0] + ", Grade= " + question[1] + ", Question=" + question[2] + ", Correct=" + question[3] + ", Incorrect1= "
+                //       + question[4] + ",Incorrect 2= " + question[5] + ",Incorrect 3= " + question[6] + ",Standard= " + question[7]+"]");
+
+                ContentValues cv = new ContentValues();
+                cv.put(QUESTION_COLUMN_QUESTION, question[2]);
+                cv.put(QUESTION_COLUMN_SUBJECT, question[0]);
+                cv.put(QUESTION_COLUMN_CORRECT_ANSWER, question[3]);
+                cv.put(QUESTION_COLUMN_WRONG_ANSWER_1, question[4]);
+                cv.put(QUESTION_COLUMN_WRONG_ANSWER_2, question[5]);
+                cv.put(QUESTION_COLUMN_WRONG_ANSWER_3, question[6]);
+                cv.put(QUESTION_COLUMN_STANDARD, question[7]);
+                cv.put(QUESTION_COLUMN_GRADE, question[1]);
+                long insert = db.insert(QUESTION_TABLE, null, cv);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     @Override
@@ -187,38 +214,46 @@ public class DataBase extends SQLiteOpenHelper {
 
     }
 
-    //returns 10 random questions (1 from each standard) in the form of a list of question objects
-    public List<question> get10randQuestions()
+
+    //Now returns 1 random question per standard
+    public List<question> getrandQuestions(String grade, String subject)
     {
         List<question> returnList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "WITH RAND_USERS AS ( SELECT *, ROW_NUMBER() OVER (PARTITION BY STANDARD ORDER BY RANDOM()) AS RANDOM_SORT FROM QUESTION_TABLE) SELECT RAND_USERS.* FROM RAND_USERS WHERE RANDOM_SORT == 1";
 
+        //look for all standards in the subject/grade
+        String query = "SELECT DISTINCT QUESTION_COLUMN_STANDARD FROM QUESTION_TABLE WHERE " +
+                "QUESTION_COLUMN_GRADE == " + grade+ " AND QUESTION_COLUMN_SUBJECT == " + subject;
         Cursor cursor = db.rawQuery(query,null);
 
-        if(cursor.moveToFirst())
-        {
-            do
-            {
-                int questionID = cursor.getInt(0);
-                String subject = cursor.getString(1);
-                int grade = cursor.getInt(2);
-                String question = cursor.getString(3);
-                String correct_answer = cursor.getString(4);
-                String wrong_answer1 = cursor.getString(5);
-                String wrong_answer2 = cursor.getString(6);
-                String wrong_answer3 = cursor.getString(7);
-                String standard = cursor.getString(8);
+        //populate a list with all the standards in the subject/grade
+        List<String> applicable_standards = new ArrayList<String>();
+        while(cursor.moveToNext()){
+            String std = cursor.getString(0);
+            applicable_standards.add(std);
+        }
 
-                question _question = new question(questionID, subject, grade, question, correct_answer, wrong_answer1, wrong_answer2, wrong_answer3, standard);
-                returnList.add(_question);
-            }
-            while(cursor.moveToNext());
+        //iterates over every desired standard, randomly selects 1 question for it. Adds it to return list
+        for(String std_toget : applicable_standards){
+            String std_query = "SELECT * from QUESTION_TABLE where QUESTION_COLUMN_STANDARD == " + std_toget
+                    + "ORDER BY random() LIMIT 1";
+            Cursor std_cursor = db.rawQuery(std_query, null);
+
+            int questionID = std_cursor.getInt(0);
+            String subject_toadd = std_cursor.getString(1);
+            int grade_toadd = std_cursor.getInt(2);
+            String question = std_cursor.getString(3);
+            String correct_answer = std_cursor.getString(4);
+            String wrong_answer1 = std_cursor.getString(5);
+            String wrong_answer2 = std_cursor.getString(6);
+            String wrong_answer3 = std_cursor.getString(7);
+            String standard = std_cursor.getString(8);
+
+            question _question = new question(questionID, subject_toadd, grade_toadd, question, correct_answer, wrong_answer1, wrong_answer2, wrong_answer3, standard);
+            returnList.add(_question);
+            std_cursor.close();
         }
-        else
-        {
-            //nothing happened (this is BAD)
-        }
+
 
         cursor.close();
         db.close();
