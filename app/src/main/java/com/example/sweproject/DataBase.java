@@ -132,6 +132,35 @@ public class DataBase extends SQLiteOpenHelper {
 
     }
 
+    public boolean validateUser(String username, String password, boolean stud_or_teach){
+        //stud_or_teach == 1 if teacher, 0 if student
+        boolean valid = false;
+        String query;
+
+        //FIXME: not sure how the database calling should work for this function
+        //Would this. always call the correct one depending on what in the front end is calling it?
+        //should the db be determined below in the if/else?
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if (stud_or_teach){
+            query = "SELECT * FROM TEACHER_TABLE WHERE " +
+                    "USERNAME == " + username+ " AND PASSWORD == " + password;
+        }
+        else {
+
+            query = "SELECT * FROM STUDENT_TABLE WHERE " +
+                    "USERNAME == " + username+ " AND PASSWORD == " + password;
+          }
+
+        Cursor cursor = db.rawQuery(query,null);
+
+        //if there is anything in there, it means there is a valid match
+        while(cursor.moveToNext()){
+            valid = true;
+        }
+        return valid;
+    }
+
     //add performance score if no score previously saved
     public boolean addPerformance(String student_username, float score)
     {
@@ -222,8 +251,8 @@ public class DataBase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         //look for all standards in the subject/grade
-        String query = "SELECT DISTINCT QUESTION_COLUMN_STANDARD FROM QUESTION_TABLE WHERE " +
-                "QUESTION_COLUMN_GRADE == " + grade+ " AND QUESTION_COLUMN_SUBJECT == " + subject;
+        String query = "SELECT DISTINCT STANDARD FROM QUESTION_TABLE WHERE " +
+                "GRADE == " + grade+ " AND SUBJECT == " + subject;
         Cursor cursor = db.rawQuery(query,null);
 
         //populate a list with all the standards in the subject/grade
@@ -235,7 +264,7 @@ public class DataBase extends SQLiteOpenHelper {
 
         //iterates over every desired standard, randomly selects 1 question for it. Adds it to return list
         for(String std_toget : applicable_standards){
-            String std_query = "SELECT * from QUESTION_TABLE where QUESTION_COLUMN_STANDARD == " + std_toget
+            String std_query = "SELECT * from QUESTION_TABLE where STANDARD == " + std_toget
                     + "ORDER BY random() LIMIT 1";
             Cursor std_cursor = db.rawQuery(std_query, null);
 
@@ -252,6 +281,9 @@ public class DataBase extends SQLiteOpenHelper {
             question _question = new question(questionID, subject_toadd, grade_toadd, question, correct_answer, wrong_answer1, wrong_answer2, wrong_answer3, standard);
             returnList.add(_question);
             std_cursor.close();
+
+            if (returnList.size() >= 10)
+                break;
         }
 
 
