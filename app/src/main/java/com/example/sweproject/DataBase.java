@@ -140,7 +140,7 @@ public class DataBase extends SQLiteOpenHelper {
         //FIXME: not sure how the database calling should work for this function
         //Would this. always call the correct one depending on what in the front end is calling it?
         //should the db be determined below in the if/else?
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         if (stud_or_teach){
             query = "SELECT * FROM TEACHER_TABLE WHERE " +
@@ -155,9 +155,12 @@ public class DataBase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query,null);
 
         //if there is anything in there, it means there is a valid match
-        while(cursor.moveToNext()){
+        if (cursor.getCount() > 0){
             valid = true;
         }
+        db.close();
+        cursor.close();
+
         return valid;
     }
 
