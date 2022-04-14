@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SWEProject">
         <activity
+            android:name=".ManageStudentsPage"
+            android:exported="false" />
+        <activity
+            android:name=".ViewScoreReportsPage"
+            android:exported="false" />
+        <activity
+            android:name=".ScienceQuiz"
+            android:exported="false" />
+        <activity
+            android:name=".MathQuiz"
+            android:exported="false" />
+        <activity
             android:name=".EducatorHomepage"
             android:exported="false" />
         <activity
